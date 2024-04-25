@@ -1,3 +1,6 @@
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
 function normalizeURL(url){
     urlobj = new URL(url)
     host = urlobj.hostname
@@ -12,7 +15,30 @@ function normalizeURL(url){
 }
 
 
+function getURLsFromHTML(html, baseURL){
+    
+    const url_list = []
+    const jsdobj = new JSDOM(html)
+    const anchorsFound = jsdobj.window.document.querySelectorAll('a')
+
+    for (anchor of anchorsFound) {
+        strAnchor = String(anchor)
+
+        if (strAnchor[0] === "/") {
+            url_list.push(baseURL + strAnchor)
+        } else {
+            url_list.push(strAnchor)
+        }
+    }
+
+
+    return url_list
+}
+
+
+getURLsFromHTML()
 
 module.exports = {
-    normalizeURL
+    normalizeURL,
+    getURLsFromHTML
 }
