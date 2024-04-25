@@ -1,4 +1,5 @@
 const { crawlPage } = require('./crawl');
+const { printReport } = require('./report');
 
 async function main() {
     const { argv } = require('node:process');
@@ -16,6 +17,7 @@ async function main() {
     }
 
     console.log(pages)
+    printReport(pages)
 }
 
 main()
